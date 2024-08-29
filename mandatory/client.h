@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   client.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 14:26:49 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/08/29 11:15:09 by rrakotos         ###   ########.fr       */
+/*   Created: 2024/08/26 14:38:23 by rrakotos          #+#    #+#             */
+/*   Updated: 2024/08/29 15:14:26 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "libft.h"
+#ifndef CLIENT_H
+# define CLIENT_H
 
-void	ft_putchar_fd(char c, int fd)
-{
-	write (fd, &c, 1);
-}
+# include "../libft/libft.h"
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+
+#endif
