@@ -12,7 +12,7 @@
 
 #include "minitalk.h"
 
-int		g_signal;
+int		g_signal = 0;
 
 void	signal_handler(int signum)
 {
@@ -40,7 +40,9 @@ void	send_sigbit(int pid, char c)
 			bit = SIGUSR2;
 		if (kill(pid, bit) == -1)
 			ft_putstr_fd("Error to send signal", 2);
-		usleep(45);
+		while (!g_signal)
+			;
+		g_signal = 0;
 		nbits--;
 	}
 }
@@ -49,10 +51,7 @@ void	send_msg(int pid, char *msg)
 {
 	while (*msg)
 	{
-		g_signal = 0;
 		send_sigbit(pid, *msg);
-		while (!g_signal)
-			pause();
 		msg++;
 	}
 	send_sigbit(pid, 0);

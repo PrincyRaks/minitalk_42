@@ -12,7 +12,8 @@
 
 #include "minitalk.h"
 
-static char	*g_message;
+// static char	*g_message;
+t_response	*g_response;
 
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
@@ -25,15 +26,23 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	if (i == 8)
 	{
 		i = 0;
+		if (!g_response)
+			g_response = new_t_response(&g_response);
 		if (c == 0)
 		{
 			kill(info->si_pid, SIGUSR2);
-			ft_putstr_fd(g_message, 1);
-			free(g_message);
-			g_message = NULL;
+			ft_putstr_fd(add_lstresponse(g_response), 1);
+			free_list(&g_response);
 			return ;
 		}
-		g_message = strjoin_data(g_message, c);
+		if (g_response->n_used == 500)
+		{
+			// ft_putnbr_fd(g_response->n_used, 1);
+			// ft_putstr_fd(g_response->message, 1);
+			g_response = new_t_response(&g_response);	
+		}
+		g_response->message[g_response->n_used] = c;
+		g_response->n_used++;
 		c = 0;
 	}
 	kill(info->si_pid, SIGUSR1);
@@ -50,8 +59,10 @@ int	main(void)
 	sa_server.sa_sigaction = &signal_handler;
 	sa_server.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa_server.sa_mask);
-	sigaction(SIGUSR1, &sa_server, NULL);
-	sigaction(SIGUSR2, &sa_server, NULL);
+	if (sigaction(SIGUSR1, &sa_server, NULL) == -1)
+		ft_putstr_fd("Error to send signal", 2);
+	if (sigaction(SIGUSR2, &sa_server, NULL) == -1)
+		ft_putstr_fd("Error to send signal", 2);
 	while (1)
 		;
 	return (0);
