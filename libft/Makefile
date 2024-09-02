@@ -5,15 +5,12 @@ OBJS= $(SRC:.c=.o)
 OBJS_bonus = $(SRC_bonus:.c=.o)
 NAME= libft.a
 
-all: $(NAME)
+all: $(NAME) 
 
 %.o: %.c
 	cc $(CFLAGS) -c $(SRC) $(SRC_bonus)
 
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
-
-bonus: $(OBJS) $(OBJS_bonus)
+$(NAME): $(OBJS) $(OBJS_bonus)
 	ar rcs $(NAME) $(OBJS) $(OBJS_bonus)
 
 clean:

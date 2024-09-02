@@ -12,8 +12,7 @@
 
 #include "minitalk.h"
 
-// static char	*g_message;
-t_response	*g_response;
+t_list	*g_response = NULL;
 
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
@@ -27,20 +26,16 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	{
 		i = 0;
 		if (!g_response)
-			g_response = new_t_response(&g_response);
+			g_response = new_t_list(&g_response);
 		if (c == 0)
 		{
 			kill(info->si_pid, SIGUSR2);
-			ft_putstr_fd(add_lstresponse(g_response), 1);
-			free_list(&g_response);
+			add_lstresponse(g_response);
+			free_list(&g_response->head);
 			return ;
 		}
 		if (g_response->n_used == 500)
-		{
-			// ft_putnbr_fd(g_response->n_used, 1);
-			// ft_putstr_fd(g_response->message, 1);
-			g_response = new_t_response(&g_response);	
-		}
+			g_response = new_t_list(&g_response);	
 		g_response->message[g_response->n_used] = c;
 		g_response->n_used++;
 		c = 0;

@@ -52,9 +52,12 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 typedef struct s_list
 {
+	char			message[500];
 	void			*content;
+	int				n_used;
+	struct s_list	*head;
 	struct s_list	*next;
-}	t_list;
+}						t_list;
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);

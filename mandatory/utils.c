@@ -12,13 +12,6 @@
 
 #include "minitalk.h"
 
-void	print_error_arg(void)
-{
-	ft_putstr_fd("ERROR: Wrong format ! please insert this way: \n", 1);
-	ft_putstr_fd("./client <PID> [message] \n", 1);
-	exit(1);
-}
-
 int	check_pid(char *argv)
 {
 	while (*argv)
@@ -30,50 +23,40 @@ int	check_pid(char *argv)
 	return (1);
 }
 
-static t_response	*get_lstlast(t_response *lst)
+void	free_list(t_list **node)
 {
-	while (lst)
+	t_list	*current;
+	t_list	*next_node;
+
+	current = *node;
+	while (current)
 	{
-		if (!lst->next)
-			return (lst);
-		lst = lst->next;
+		next_node = current->next;
+		free(current);
+		current = next_node;
 	}
-	return (NULL);
+	*node = NULL;
 }
 
-static void	add_back(t_response **list, t_response *new)
+t_list	*new_t_list(t_list **list)
 {
-	t_response	*end;
-
-	if (list)
-	{
-		if (!*list)
-			*list = new;
-		else
-		{
-			end = get_lstlast(*list);
-			if (end)
-				end->next = new;
-		}
-	}
-}
-
-t_response	*new_t_response(t_response **list)
-{
-	t_response  *new;
+	t_list  *new;
 
 	if (!list)
 		return (NULL);
-	new = (t_response *)malloc(sizeof(t_response));
+	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
+	{
+		free_list(&(*list)->head);
 		return (NULL);
+	}
     new->n_used = 0;
 	new->next = NULL;
-	add_back(list, new);
+	ft_lstadd_back(list, new);
 	return (new);
 }
 
-static char	*strcpy_lst(char *dst, t_response *src, int len)
+static char	*strcpy_lst(char *dst, t_list *src, int len)
 {
 	int	i;
 	int	j;
@@ -96,14 +79,14 @@ static char	*strcpy_lst(char *dst, t_response *src, int len)
 	return (dst);
 }
 
-char	*add_lstresponse(t_response *list)
+void	add_lstresponse(t_list *list)
 {
 	char		*message;
 	int			len;
-	t_response	*next_node;
+	t_list	*next_node;
 
 	len = 0;
-	next_node = list;
+	next_node = list->head;
 	while (next_node)
 	{
 		len += next_node->n_used;
@@ -111,45 +94,11 @@ char	*add_lstresponse(t_response *list)
 	}
 	message = (char*)malloc(sizeof(char) * (len + 1));
 	if (!message)
-		return (NULL);
-	message = strcpy_lst(message, list, len);
-	return (message);
-}
-
-void	free_list(t_response **node)
-{
-	t_response	*current;
-	t_response	*next_node;
-
-	current = *node;
-	while (current)
 	{
-		next_node = current->next;
-		free(current);
-		current = next_node;
+		free_list(&list->head);
+		exit(1);
 	}
+	message = strcpy_lst(message, list->head, len);
+	ft_putstr_fd(message, 1);
+	free(message);
 }
-
-// char	*strjoin_data(char *s1, char c)
-// {
-// 	char	*new_s;
-// 	char	*tmp_s1;
-// 	int		len;
-
-// 	if (s1 == NULL)
-// 		s1 = ft_calloc(1, 1);
-// 	len = ft_strlen(s1) + 1;
-// 	new_s = ft_calloc(1, (len + 1));
-// 	if (!new_s)
-// 	{
-// 		free(s1);
-// 		return (NULL);
-// 	}
-// 	tmp_s1 = s1;
-// 	while (*tmp_s1)
-// 		*(new_s++) = *(tmp_s1++);
-// 	if (c)
-// 		*(new_s++) = c;
-// 	free(s1);
-// 	return (new_s - len);
-// }

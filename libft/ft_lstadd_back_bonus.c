@@ -19,12 +19,19 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	if (lst)
 	{
 		if (!*lst)
+		{
+			ft_putstr_fd("FIRY\n", 1);
 			*lst = new;
+			(*lst)->head = new;
+		}
 		else
 		{
 			end = ft_lstlast(*lst);
 			if (end)
+			{
 				end->next = new;
+				new->head = end->head;
+			}
 		}
 	}
 }

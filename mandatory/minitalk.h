@@ -16,20 +16,13 @@
 # include "../libft/libft.h"
 # include <signal.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <unistd.h>
 
-typedef struct s_response
-{
-	char				message[500];
-	int					n_used;
-	struct s_response	*next;
-}						t_response;
-// char	*strjoin_data(char *s1, char c);
-t_response	*new_t_response(t_response **list);
-char	*add_lstresponse(t_response *list);
-void	free_list(t_response **node);
+t_list	*new_t_list(t_list **list);
+void	add_lstresponse(t_list *list);
+void	free_list(t_list **node);
 void	print_error_arg(void);
 int     check_pid(char *argv);
-
 
 #endif

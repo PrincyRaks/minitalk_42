@@ -12,7 +12,14 @@
 
 #include "minitalk.h"
 
-int		g_signal = 0;
+int	g_signal = 0;
+
+void	print_error_arg(void)
+{
+	ft_putstr_fd("ERROR: Wrong format ! please insert this way: \n", 1);
+	ft_putstr_fd("./client <PID> [message] \n", 1);
+	exit(1);
+}
 
 void	signal_handler(int signum)
 {
@@ -49,10 +56,14 @@ void	send_sigbit(int pid, char c)
 
 void	send_msg(int pid, char *msg)
 {
+	int	len;
+
+	len = 0;
 	while (*msg)
 	{
 		send_sigbit(pid, *msg);
 		msg++;
+		len++;
 	}
 	send_sigbit(pid, 0);
 }
