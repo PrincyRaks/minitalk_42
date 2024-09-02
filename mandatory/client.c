@@ -18,62 +18,44 @@ void	signal_handler(int signum)
 {
 	if (signum == SIGUSR1)
 		g_signal = 1;
-	if (signum == SIGUSR2)
-		ft_putstr_fd("Message is received by server!", 1);
-}
-
-void	print_error_arg(void)
-{
-	ft_putstr_fd("ERROR: Wrong format ! please insert this way: \n", 1);
-	ft_putstr_fd("./client <PID> [message] \n", 1);
-	exit(1);
-}
-
-int	check_pid(char *argv)
-{
-	while (*argv)
+	else if (signum == SIGUSR2)
 	{
-		if (ft_isdigit(*argv) == 0)
-			return (0);
-		argv++;
+		ft_putstr_fd("Message is received by server! \n", 1);
+		exit(0);
 	}
-	return (1);
 }
 
 void	send_sigbit(int pid, char c)
 {
 	int	nbits;
+	int	bit;
 
 	nbits = 7;
 	while (nbits >= 0)
 	{
-		while (!g_signal)
-			pause();
-		if ((c >> nbits) & 1)
-		{
-			if (kill(pid, SIGUSR1) == -1)
-				printf("ERROR sig1");
-		}
-		else
-		{
-			if (kill(pid, SIGUSR2) == -1)
-				printf("ERROR sig2");
-		}
+		bit = (c >> nbits) & 1;
+		if (bit == 1)
+			bit = SIGUSR1;
+		else 
+			bit = SIGUSR2;
+		if (kill(pid, bit) == -1)
+			ft_putstr_fd("Error to send signal", 2);
+		usleep(45);
 		nbits--;
-		g_signal = 0;
 	}
 }
 
 void	send_msg(int pid, char *msg)
 {
-	if (*msg)
-		g_signal = 1;
 	while (*msg)
 	{
+		g_signal = 0;
 		send_sigbit(pid, *msg);
+		while (!g_signal)
+			pause();
 		msg++;
 	}
-	send_sigbit(pid, '\0');
+	send_sigbit(pid, 0);
 }
 
 int	main(int argc, char **argv)

@@ -19,4 +19,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+char	*strjoin_data(char *s1, char c);
+void	print_error_arg(void);
+int     check_pid(char *argv);
+
 #endif
