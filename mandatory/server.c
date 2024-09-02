@@ -14,6 +14,12 @@
 
 t_list	*g_response = NULL;
 
+void	print_error_sig(void)
+{
+	ft_putstr_fd("Error to send signal", 2);
+	exit(1);
+}
+
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	static int	i;
@@ -25,17 +31,15 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	if (i == 8)
 	{
 		i = 0;
-		if (!g_response)
+		if (!g_response || g_response->n_used == 500)
 			g_response = new_t_list(&g_response);
 		if (c == 0)
 		{
 			kill(info->si_pid, SIGUSR2);
-			add_lstresponse(g_response);
+			print_response(g_response);
 			free_list(&g_response->head);
 			return ;
 		}
-		if (g_response->n_used == 500)
-			g_response = new_t_list(&g_response);	
 		g_response->message[g_response->n_used] = c;
 		g_response->n_used++;
 		c = 0;
@@ -55,9 +59,9 @@ int	main(void)
 	sa_server.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa_server.sa_mask);
 	if (sigaction(SIGUSR1, &sa_server, NULL) == -1)
-		ft_putstr_fd("Error to send signal", 2);
+		print_error_sig();
 	if (sigaction(SIGUSR2, &sa_server, NULL) == -1)
-		ft_putstr_fd("Error to send signal", 2);
+		print_error_sig();
 	while (1)
 		;
 	return (0);

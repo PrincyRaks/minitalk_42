@@ -20,7 +20,7 @@
 # include <unistd.h>
 
 t_list	*new_t_list(t_list **list);
-void	add_lstresponse(t_list *list);
+void	print_response(t_list *list);
 void	free_list(t_list **node);
 void	print_error_arg(void);
 int     check_pid(char *argv);

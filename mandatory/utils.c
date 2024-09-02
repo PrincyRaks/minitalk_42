@@ -35,7 +35,6 @@ void	free_list(t_list **node)
 		free(current);
 		current = next_node;
 	}
-	*node = NULL;
 }
 
 t_list	*new_t_list(t_list **list)
@@ -56,7 +55,7 @@ t_list	*new_t_list(t_list **list)
 	return (new);
 }
 
-static char	*strcpy_lst(char *dst, t_list *src, int len)
+static char	*strcpy_lst(char *dst, t_list *src)
 {
 	int	i;
 	int	j;
@@ -67,7 +66,7 @@ static char	*strcpy_lst(char *dst, t_list *src, int len)
 	while (src)
 	{
 		j = 0;		
-		while (src->message[j] && (j < 500 && i < len))
+		while (src->message[j] && j < 500)
 		{
 			dst[i] = src->message[j];
 			i++;
@@ -79,7 +78,7 @@ static char	*strcpy_lst(char *dst, t_list *src, int len)
 	return (dst);
 }
 
-void	add_lstresponse(t_list *list)
+void	print_response(t_list *list)
 {
 	char		*message;
 	int			len;
@@ -98,7 +97,8 @@ void	add_lstresponse(t_list *list)
 		free_list(&list->head);
 		exit(1);
 	}
-	message = strcpy_lst(message, list->head, len);
+	message = strcpy_lst(message, list->head);
 	ft_putstr_fd(message, 1);
+	ft_putchar_fd('\n', 1);
 	free(message);
 }
