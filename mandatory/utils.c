@@ -23,39 +23,62 @@ int	check_pid(char *argv)
 	return (1);
 }
 
-void	free_list(t_list **node)
+void	free_list(t_util **lst)
 {
-	t_list	*current;
-	t_list	*next_node;
+	t_node	*current;
+	t_node	*next_node;
 
-	current = *node;
+	current = (*lst)->head;
 	while (current)
 	{
 		next_node = current->next;
 		free(current);
 		current = next_node;
 	}
+	free(*lst);
+	*lst = NULL;
 }
 
-t_list	*new_t_list(t_list **list)
+static void	append_back(t_util **util, t_node *node)
 {
-	t_list  *new;
-
-	if (!list)
-		return (NULL);
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
+	if ((*util)->head == NULL)
 	{
-		free_list(&(*list)->head);
-		return (NULL);
+		(*util)->head = node;
+		(*util)->tail = node;
+	}
+	else
+	{
+		(*util)->tail->next = node;
+		(*util)->tail = node;
+	}
+}
+
+void	new_t_node(t_util	**util)
+{
+	t_node	*new;
+
+	if (!util)
+		return ;
+	if (!*util)
+	{
+		*util = (t_util*)malloc(sizeof(t_util));
+		if (!*util)
+			return ;
+		(*util)->head = NULL;
+		(*util)->tail = NULL;
+	}
+	new = (t_node*)malloc(sizeof(t_node));
+	if (!new) 
+	{
+		free_list(util);
+		return ;
 	}
     new->n_used = 0;
 	new->next = NULL;
-	ft_lstadd_back(list, new);
-	return (new);
+	append_back(util, new);
 }
 
-static char	*strcpy_lst(char *dst, t_list *src)
+static char	*strcpy_lst(char *dst, t_node *src)
 {
 	int	i;
 	int	j;
@@ -78,14 +101,14 @@ static char	*strcpy_lst(char *dst, t_list *src)
 	return (dst);
 }
 
-void	print_response(t_list *list)
+void	print_response(t_util **util, int pid)
 {
 	char		*message;
 	int			len;
-	t_list	*next_node;
+	t_node	*next_node;
 
 	len = 0;
-	next_node = list->head;
+	next_node = (*util)->head;
 	while (next_node)
 	{
 		len += next_node->n_used;
@@ -94,11 +117,14 @@ void	print_response(t_list *list)
 	message = (char*)malloc(sizeof(char) * (len + 1));
 	if (!message)
 	{
-		free_list(&list->head);
+		free_list(util);
 		exit(1);
 	}
-	message = strcpy_lst(message, list->head);
+	message = strcpy_lst(message, (*util)->head);
 	ft_putstr_fd(message, 1);
+
 	ft_putchar_fd('\n', 1);
 	free(message);
+	free_list(util);
+	kill(pid, SIGUSR2);
 }

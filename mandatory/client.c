@@ -16,8 +16,8 @@ int	g_signal = 0;
 
 void	print_error_arg(void)
 {
-	ft_putstr_fd("ERROR: Wrong format ! please insert this way: \n", 1);
-	ft_putstr_fd("./client <PID> [message] \n", 1);
+	ft_putstr_fd("\033[91mERROR: Wrong format ! please insert this way:\n\033[0m", 1);
+	ft_putstr_fd("\033[94m./client <PID> [message]\n\033[0m", 1);
 	exit(1);
 }
 
@@ -27,7 +27,7 @@ void	signal_handler(int signum)
 		g_signal = 1;
 	else if (signum == SIGUSR2)
 	{
-		ft_putstr_fd("Message is received by server! \n", 1);
+		ft_putstr_fd("\033[92mMessage is received by server!\n\033[0m", 1);
 		exit(0);
 	}
 }
@@ -56,14 +56,10 @@ void	send_sigbit(int pid, char c)
 
 void	send_msg(int pid, char *msg)
 {
-	int	len;
-
-	len = 0;
 	while (*msg)
 	{
 		send_sigbit(pid, *msg);
 		msg++;
-		len++;
 	}
 	send_sigbit(pid, 0);
 }

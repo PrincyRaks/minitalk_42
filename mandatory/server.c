@@ -12,18 +12,18 @@
 
 #include "minitalk.h"
 
-t_list	*g_response = NULL;
+t_util	*g_response = NULL;
 
-void	print_error_sig(void)
+void	print_error(void)
 {
-	ft_putstr_fd("Error to send signal", 2);
+	ft_putstr_fd("\033[91mError to send\033[0m", 2);
 	exit(1);
 }
 
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
-	static int	i;
-	static char	c;
+	static int					i = 0;
+	static char					c = 0;
 	(void)context;
 
 	c = (c << 1) | (signum == SIGUSR1);
@@ -31,17 +31,19 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	if (i == 8)
 	{
 		i = 0;
-		if (!g_response || g_response->n_used == 500)
-			g_response = new_t_list(&g_response);
+		if (!g_response || g_response->tail->n_used == 500)
+		{
+			new_t_node(&g_response);
+			if (!g_response)
+				print_error();
+		}
 		if (c == 0)
 		{
-			kill(info->si_pid, SIGUSR2);
-			print_response(g_response);
-			free_list(&g_response->head);
+			print_response(&g_response, info->si_pid);
 			return ;
 		}
-		g_response->message[g_response->n_used] = c;
-		g_response->n_used++;
+		g_response->tail->message[g_response->tail->n_used] = c;
+		g_response->tail->n_used++;
 		c = 0;
 	}
 	kill(info->si_pid, SIGUSR1);
@@ -59,9 +61,9 @@ int	main(void)
 	sa_server.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa_server.sa_mask);
 	if (sigaction(SIGUSR1, &sa_server, NULL) == -1)
-		print_error_sig();
+		print_error();
 	if (sigaction(SIGUSR2, &sa_server, NULL) == -1)
-		print_error_sig();
+		print_error();
 	while (1)
 		;
 	return (0);
