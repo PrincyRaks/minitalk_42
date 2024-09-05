@@ -75,6 +75,7 @@ void	new_t_node(t_util	**util)
 	}
     new->n_used = 0;
 	new->next = NULL;
+	ft_bzero(new->message, 500);
 	append_back(util, new);
 }
 

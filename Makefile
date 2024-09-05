@@ -33,6 +33,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME_SEVER) $(NAME_CLIENT)
+	rm -f $(LIBFT_A)
 
 re: fclean all
 
