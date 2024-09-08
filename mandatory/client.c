@@ -14,13 +14,6 @@
 
 int	g_signal = 0;
 
-void	print_error_arg(void)
-{
-	ft_putstr_fd("\033[91mERROR: Wrong format ! please insert this way:\n\033[0m", 1);
-	ft_putstr_fd("\033[94m./client <PID> [message]\n\033[0m", 1);
-	exit(1);
-}
-
 void	signal_handler(int signum)
 {
 	if (signum == SIGUSR1)
@@ -46,7 +39,7 @@ void	send_sigbit(int pid, char c)
 		else 
 			bit = SIGUSR2;
 		if (kill(pid, bit) == -1)
-			ft_putstr_fd("Error to send signal", 2);
+			print_error_sig();
 		while (!g_signal)
 			;
 		g_signal = 0;

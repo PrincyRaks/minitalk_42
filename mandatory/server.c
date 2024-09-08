@@ -14,12 +14,6 @@
 
 t_util	*g_response = NULL;
 
-void	print_error(void)
-{
-	ft_putstr_fd("\033[91mError to send\033[0m", 2);
-	exit(1);
-}
-
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	static int					i = 0;
@@ -35,7 +29,7 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 		{
 			new_t_node(&g_response);
 			if (!g_response)
-				print_error();
+				print_error_sig();
 		}
 		if (c == 0)
 		{
@@ -53,17 +47,16 @@ int	main(void)
 {
 	struct sigaction	sa_server;
 
-	ft_putstr_fd("======= SERVER RUNNING 🚀\n", 1);
-	ft_putstr_fd("PID => ", 1);
+	ft_putstr_fd("======= SERVER RUNNING ...🚀\nPID =>", 1);
 	ft_putnbr_fd(getpid(), 1);
-	ft_putstr_fd("\n", 1);
+	ft_putchar_fd('\n', 1);
 	sa_server.sa_sigaction = &signal_handler;
 	sa_server.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa_server.sa_mask);
 	if (sigaction(SIGUSR1, &sa_server, NULL) == -1)
-		print_error();
+		print_error_sig();
 	if (sigaction(SIGUSR2, &sa_server, NULL) == -1)
-		print_error();
+		print_error_sig();
 	while (1)
 		;
 	return (0);

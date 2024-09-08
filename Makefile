@@ -1,7 +1,12 @@
 CFLAGS= -Wall -Werror -Wextra -g
 
-SRC_SERVER= ./mandatory/server.c ./mandatory/utils.c
-SRC_CLIENT= ./mandatory/client.c ./mandatory/utils.c
+SRC_SERVER= ./mandatory/server.c \
+			./mandatory/utils_1.c \
+			./mandatory/utils_2.c
+
+SRC_CLIENT= ./mandatory/client.c \
+			./mandatory/utils_1.c \
+			./mandatory/utils_2.c
 
 OBJ_SERVER= $(SRC_SERVER:.c=.o)
 OBJ_CLIENT= $(SRC_CLIENT:.c=.o)
@@ -28,12 +33,12 @@ libft:
 	make -C ./libft
 
 clean:
-	make -C ./libft fclean
+	make clean -C libft/
 	rm -f $(OBJ_CLIENT) $(OBJ_SERVER)
 
 fclean: clean
+	make fclean -C libft/
 	rm -f $(NAME_SEVER) $(NAME_CLIENT)
-	rm -f $(LIBFT_A)
 
 re: fclean all
 

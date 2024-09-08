@@ -16,7 +16,6 @@
 # include "../libft/libft.h"
 # include <signal.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 
 typedef struct s_node
@@ -35,5 +34,6 @@ void	print_response(t_util **util, int pid);
 void	free_list(t_util **lst);
 void	print_error_arg(void);
 int     check_pid(char *argv);
+void	print_error_sig(void);
 
 #endif
