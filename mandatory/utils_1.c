@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:47:25 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/09/02 15:05:55 by rrakotos         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:13:05 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	append_back(t_util **util, t_node *node)
 	}
 }
 
-void	new_t_node(t_util	**util)
+void	new_t_node(t_util **util)
 {
 	t_node	*node;
 
@@ -34,19 +34,19 @@ void	new_t_node(t_util	**util)
 		return ;
 	if (!*util)
 	{
-		*util = (t_util*)malloc(sizeof(t_util));
+		*util = (t_util *)malloc(sizeof(t_util));
 		if (!*util)
 			return ;
 		(*util)->head = NULL;
 		(*util)->tail = NULL;
 	}
 	node = malloc(sizeof(t_node));
-	if (!node) 
+	if (!node)
 	{
 		free_list(util);
 		return ;
 	}
-    node->n_used = 0;
+	node->n_used = 0;
 	node->next = NULL;
 	ft_bzero(node->message, 500);
 	append_back(util, node);
@@ -62,7 +62,7 @@ static char	*strcpy_lst(char *dst, t_node *src)
 	i = 0;
 	while (src)
 	{
-		j = 0;		
+		j = 0;
 		while (src->message[j] && j < 500)
 		{
 			dst[i] = src->message[j];
@@ -77,8 +77,8 @@ static char	*strcpy_lst(char *dst, t_node *src)
 
 void	print_response(t_util **util, int pid)
 {
-	char		*message;
-	int			len;
+	char	*message;
+	int		len;
 	t_node	*next_node;
 
 	len = 0;
@@ -88,7 +88,7 @@ void	print_response(t_util **util, int pid)
 		len += next_node->n_used;
 		next_node = next_node->next;
 	}
-	message = (char*)malloc(sizeof(char) * (len + 1));
+	message = (char *)malloc(sizeof(char) * (len + 1));
 	if (!message)
 	{
 		free_list(util);

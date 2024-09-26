@@ -6,7 +6,7 @@
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:49:24 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/08/30 16:32:48 by rrakotos         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:35:35 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ t_util	*g_response = NULL;
 
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
-	static int					i = 0;
-	static char					c = 0;
-	(void)context;
+	static int	i = 0;
+	static char	c = 0;
 
+	(void)context;
 	c = (c << 1) | (signum == SIGUSR1);
 	i++;
 	if (i == 8)
@@ -34,7 +34,7 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 		if (c == 0)
 		{
 			print_response(&g_response, info->si_pid);
-			return ;
+			exit(0);
 		}
 		g_response->tail->message[g_response->tail->n_used] = c;
 		g_response->tail->n_used++;
@@ -43,11 +43,14 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	kill(info->si_pid, SIGUSR1);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
+	(void)argv;
 	struct sigaction	sa_server;
 
-	ft_putstr_fd("======= SERVER RUNNING ...🚀\nPID =>", 1);
+	if (argc != 1)
+		print_err_server();
+	ft_putstr_fd("======= SERVER IS RUNNING 🚀\nPID => ", 1);
 	ft_putnbr_fd(getpid(), 1);
 	ft_putchar_fd('\n', 1);
 	sa_server.sa_sigaction = &signal_handler;
