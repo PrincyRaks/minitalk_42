@@ -37,9 +37,9 @@ int	check_pid(char *argv)
 	return (1);
 }
 
-void	print_error_sig(void)
+void	print_error(char *str)
 {
-	ft_putstr_fd("\033[91mError to send\033[0m\n", 2);
+	ft_putstr_fd(str, 2);
 	exit(1);
 }
 

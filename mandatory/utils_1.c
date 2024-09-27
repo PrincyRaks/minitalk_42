@@ -99,5 +99,6 @@ void	print_response(t_util **util, int pid)
 	ft_putchar_fd('\n', 1);
 	free(message);
 	free_list(util);
-	kill(pid, SIGUSR2);
+	if (kill(pid, SIGUSR2))
+		print_error("Error sending signal to client\n");
 }

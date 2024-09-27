@@ -34,7 +34,7 @@ void				print_response(t_util **util, int pid);
 void				free_list(t_util **lst);
 void				print_err_client(void);
 int					check_pid(char *argv);
-void				print_error_sig(void);
+void	print_error(char *str);
 void	print_err_client(void);
 void	print_err_server(void);
 

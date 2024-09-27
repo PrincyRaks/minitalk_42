@@ -29,12 +29,12 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 		{
 			new_t_node(&g_response);
 			if (!g_response)
-				print_error_sig();
+				print_error("Error creating storage\n");
 		}
 		if (c == 0)
 		{
 			print_response(&g_response, info->si_pid);
-			exit(0);
+			return ;
 		}
 		g_response->tail->message[g_response->tail->n_used] = c;
 		g_response->tail->n_used++;
@@ -56,10 +56,8 @@ int	main(int argc, char **argv)
 	sa_server.sa_sigaction = &signal_handler;
 	sa_server.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa_server.sa_mask);
-	if (sigaction(SIGUSR1, &sa_server, NULL) == -1)
-		print_error_sig();
-	if (sigaction(SIGUSR2, &sa_server, NULL) == -1)
-		print_error_sig();
+	if (sigaction(SIGUSR1, &sa_server, NULL) == -1 || sigaction(SIGUSR2, &sa_server, NULL) == -1)
+		print_error("Error sending signal to client\n");
 	while (1)
 		;
 	return (0);

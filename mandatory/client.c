@@ -21,7 +21,7 @@ void	signal_handler(int signum)
 	else if (signum == SIGUSR2)
 	{
 		ft_putstr_fd("\033[92m✅ Message is received by server!\n\033[0m", 1);
-		return ;
+		exit(0);
 	}
 }
 
@@ -39,7 +39,7 @@ void	send_sigbit(int pid, char c)
 		else
 			bit = SIGUSR2;
 		if (kill(pid, bit) == -1)
-			print_error_sig();
+			print_error("Error sending signal to Server\n");
 		while (!g_signal)
 			;
 		g_signal = 0;
