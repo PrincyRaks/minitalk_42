@@ -6,7 +6,7 @@
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:25:39 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/09/28 14:55:00 by rrakotos         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:04:24 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	signal_handler(int signum)
 		g_signal = 1;
 	else if (signum == SIGUSR2)
 	{
-		ft_putstr_fd("\033[92m✅ Message is received by server!\n\033[0m", 1);
+		ft_printf("\033[92m✅ Message is received by server!\n\033[0m");
 		exit(0);
 	}
 }
@@ -39,7 +39,10 @@ void	send_sigbit(int pid, char c)
 		else
 			bit = SIGUSR2;
 		if (kill(pid, bit) == -1)
-			print_error("Error sending signal to Server\n");
+		{
+			ft_printf("❌ Error sending signal to Server\n");
+			exit(1);
+		}
 		while (!g_signal)
 			;
 		g_signal = 0;

@@ -6,14 +6,14 @@
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:38:23 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/09/28 14:53:03 by rrakotos         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:58:05 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include "../libft/libft.h"
+# include "../libprintf/libftprintf.h"
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -32,6 +32,8 @@ typedef struct s_util
 void				new_t_node(t_util **util);
 void				free_list(t_util **lst);
 int					check_pid(char *argv);
+void				ft_bzero(void *s, size_t n);
+int					ft_atoi(const char *nptr);
 void				print_error(char *str);
 void				print_err_client(char *str);
 void				print_err_server(char *str);

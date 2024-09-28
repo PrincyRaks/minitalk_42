@@ -1,7 +1,8 @@
 CFLAGS= -Wall -Werror -Wextra
 
-SRC= ./mandatory/utils_1.c \
-	 ./mandatory/utils_2.c
+SRC=	./mandatory/utils_1.c \
+	 	./mandatory/utils_2.c \
+		./mandatory/utils_3.c
 
 SRC_SERVER=	./mandatory/server.c
 
@@ -19,11 +20,11 @@ NAME_SEVER= server
 NAME_CLIENT= client
 NAME_SEVER_BONUS= server_bonus
 NAME_CLIENT_BONUS= client_bonus
+LIBPRINTF= ./libprintf/libftprintf.a
 
-LIBFT_A = ./libft/libft.a
 INC= -I./include
 
-all: libft $(NAME_SEVER) $(NAME_CLIENT)
+all: libftprintf $(NAME_SEVER) $(NAME_CLIENT)
 
 $(OBJ):%.o:%.c
 	cc $(CFLAGS) $(INC) -c $< -o $@
@@ -37,31 +38,31 @@ $(OBJ_CLIENT):%.o:%.c
 $(OBJ_BONUS):%.o:%.c
 	cc $(CFLAGS) $(INC) -c $< -o $@
 
-$(NAME_SEVER): $(OBJ) $(OBJ_SERVER) $(LIBFT_A)
-	cc $(CFLAGS) $(OBJ) $(OBJ_SERVER) $(LIBFT_A) -o $(NAME_SEVER)
+$(NAME_SEVER): $(OBJ) $(OBJ_SERVER) $(LIBPRINTF)
+	cc $(CFLAGS) $(OBJ) $(OBJ_SERVER) $(LIBPRINTF) -o $(NAME_SEVER)
 
-$(NAME_CLIENT): $(OBJ) $(OBJ_CLIENT) $(LIBFT_A)
-	cc $(CFLAGS) $(OBJ) $(OBJ_CLIENT) $(LIBFT_A) -o $(NAME_CLIENT)
+$(NAME_CLIENT): $(OBJ) $(OBJ_CLIENT)
+	cc $(CFLAGS) $(OBJ) $(OBJ_CLIENT) $(LIBPRINTF) -o $(NAME_CLIENT)
 
-bonus: libft $(NAME_SEVER_BONUS) $(NAME_CLIENT_BONUS)
+bonus: libftprintf $(NAME_SEVER_BONUS) $(NAME_CLIENT_BONUS)
 
-$(NAME_SEVER_BONUS): $(OBJ) ./bonus/server_bonus.o $(LIBFT_A)
-	cc $(CFLAGS) $(OBJ) ./bonus/server_bonus.o $(LIBFT_A) -o $@
+$(NAME_SEVER_BONUS): $(OBJ) ./bonus/server_bonus.o $(LIBPRINTF)
+	cc $(CFLAGS) $(OBJ) $(LIBPRINTF) ./bonus/server_bonus.o -o $@
 
-$(NAME_CLIENT_BONUS): $(OBJ) ./bonus/client_bonus.o $(LIBFT_A)
-	cc $(CFLAGS) $(OBJ) ./bonus/client_bonus.o $(LIBFT_A) -o $@
+$(NAME_CLIENT_BONUS): $(OBJ) ./bonus/client_bonus.o $(LIBPRINTF)
+	cc $(CFLAGS) $(OBJ) $(LIBPRINTF) ./bonus/client_bonus.o -o $@
 
-libft:
-	make -C ./libft
+libftprintf:
+	make -C ./libprintf
 
 clean:
-	make clean -C libft/
+	make clean -C libprintf/
 	rm -f $(OBJ) $(OBJ_CLIENT) $(OBJ_SERVER) $(OBJ_BONUS)
 
 fclean: clean
-	make fclean -C libft/
-	rm -f $(NAME_SEVER) $(NAME_CLIENT) $(NAME_SEVER_BONUS) $(NAME_CLIENT_BONUS)
+	make fclean -C libprintf/
+	rm -f $(NAME_SEVER) $(NAME_CLIENT) $(NAME_SEVER_BONUS) $(NAME_CLIENT_BONUS) $(LIBPRINTF)
 
 re: fclean all
 
-.PHONY: clean fclean re libft bonus all
+.PHONY: clean fclean re libftprintf bonus all

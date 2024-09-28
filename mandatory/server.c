@@ -6,7 +6,7 @@
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:49:24 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/09/28 14:54:46 by rrakotos         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:19:17 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ int	main(int argc, char **argv)
 
 	(void)argv;
 	if (argc != 1)
-		print_err_server("\t./server_bonus\n");
-	ft_putstr_fd("======= SERVER IS RUNNING 🚀\nPID => ", 1);
-	ft_putnbr_fd(getpid(), 1);
-	ft_putchar_fd('\n', 1);
+		print_err_server("\t./server\n");
+	ft_printf("======= SERVER IS RUNNING 🚀\nPID => %d\n", getpid());
 	sa_server.sa_sigaction = &signal_handler;
 	sa_server.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa_server.sa_mask);
