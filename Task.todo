@@ -1,5 +1,5 @@
 Todo:
     ✔ Debug error Makefile | include same header in bonus @done(24-09-26 15:15)
-    ☐ Check arg Server & client
-    ☐ update function print_error(void) to print_error(char *) 
+    ✔ Check arg Server & client @done(24-09-28 09:05)
+    ✔ update function print_error(void) to print_error(char *) @done(24-09-28 10:00)
     ☐ Bonus

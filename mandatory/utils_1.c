@@ -6,7 +6,7 @@
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:47:25 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/09/26 15:13:05 by rrakotos         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:37:58 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,19 @@ void	print_response(t_util **util, int pid)
 	if (!message)
 	{
 		free_list(util);
-		exit(1);
+		print_error("Error printing message\n");
 	}
 	message = strcpy_lst(message, (*util)->head);
 	ft_putstr_fd(message, 1);
 	ft_putchar_fd('\n', 1);
 	free(message);
 	free_list(util);
+	kill(pid, SIGUSR1);
+}
+
+void	process_message(t_util **util, int pid)
+{
+	print_response(util, pid);
 	if (kill(pid, SIGUSR2))
 		print_error("Error sending signal to client\n");
 }

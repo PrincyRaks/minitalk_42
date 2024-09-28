@@ -6,7 +6,7 @@
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:38:23 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/09/26 15:28:37 by rrakotos         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:53:03 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ typedef struct s_util
 	t_node			*tail;
 }					t_util;
 void				new_t_node(t_util **util);
-void				print_response(t_util **util, int pid);
 void				free_list(t_util **lst);
-void				print_err_client(void);
 int					check_pid(char *argv);
-void	print_error(char *str);
-void	print_err_client(void);
-void	print_err_server(void);
+void				print_error(char *str);
+void				print_err_client(char *str);
+void				print_err_server(char *str);
+void				print_response(t_util **util, int pid);
+void				process_message(t_util **util, int pid);
 
 #endif

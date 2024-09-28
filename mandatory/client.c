@@ -6,7 +6,7 @@
 /*   By: rrakotos <rrakotos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:22:57 by rrakotos          #+#    #+#             */
-/*   Updated: 2024/09/26 15:44:10 by rrakotos         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:55:08 by rrakotos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ void	signal_handler(int signum)
 {
 	if (signum == SIGUSR1)
 		g_signal = 1;
-	else if (signum == SIGUSR2)
-	{
-		ft_putstr_fd("\033[92m✅ Message is received by server!\n\033[0m", 1);
-		exit(0);
-	}
 }
 
 void	send_sigbit(int pid, char c)
@@ -60,9 +55,9 @@ void	send_msg(int pid, char *msg)
 int	main(int argc, char **argv)
 {
 	if (argc != 3)
-		print_err_client();
+		print_err_client("\t./client <PID> [message]\n");
 	if (!check_pid(argv[1]))
-		print_err_client();
+		print_err_client("\t./client <PID> [message]\n");
 	signal(SIGUSR1, signal_handler);
 	signal(SIGUSR2, signal_handler);
 	send_msg(ft_atoi(argv[1]), argv[2]);
