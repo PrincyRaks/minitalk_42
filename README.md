@@ -16,27 +16,23 @@ The minitalk communication protocol involves sending messages between two proces
 
 <font color="red">**NB**: The message received by the server must be displayed only once, but not per character. Like this: </font>
 
-VIdeo
+![visualizer](https://github.com/PrincyRaks/minitalk/blob/main/GIF/minitalk.gif)
 
 **For 150 paragraphs of execution ≃ 2.s✨**
 
-
-
-
 # Documentation
 
-For the documentation Library Minilibx [here](https://harm-smits.github.io/42docs/)
+The subjects of this project is [here](https://github.com/PrincyRaks/minitalk/blob/main/fr.subject_2.pdf)
 
-The subjects of this project is [here](https://github.com/PrincyRaks/fract-ol/blob/main/fr.subject.pdf)
-
-I didn't finished the last bonus to complete the 125 points (Zoom follows mouse position 🥲. Sorry)
+For more understand the subject, I visit the website [Gitbook42](https://42-cursus.gitbook.io/guide/rank-02/minitalk)
 
 ## Test
 You can test this project if you have compiler C in your device :
 
-- `git clone git@github.com:PrincyRaks/fract-ol.git`
+- `git clone git@github.com:PrincyRaks/minitalk.git`
 - open terminal and execute the following commands :
- - `tar -xf minilibx-linux.tgz`
- - rename the folder **minilibx-linux** to **minilibx**
-- execute `make` for mandatory project and `./fractol`, you can watch the differents formats to execute differents fractals
-- `make bonus` for bonus project and execute `./fractol_bonus`
+ - `cd minitalk/`
+ - execute `make` for mandatory :
+  - Firstly, launch server `./server`
+  - Copy the PID and paste in the client with the message, `./client <PID_server> "The message here"`
+- `make bonus` for bonus project and execute, launch `./server_bonus` then `./client_bonus`
